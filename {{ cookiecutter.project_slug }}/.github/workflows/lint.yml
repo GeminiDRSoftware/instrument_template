@@ -1,0 +1,30 @@
+# Linting workflow for DRAGONS Interactive Tools
+#
+# Just runs the same pre-commit hooks that are run locally when pre-commit is
+# properly installed.
+name: Lint
+
+# Run this workflow on every push to the repository and on manual trigger.
+on:
+    push:
+    workflow_dispatch:
+
+jobs:
+    lint:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v2
+
+            - uses: actions/checkout@v4
+            - uses: actions/setup-python@v4
+
+            - name: Run image
+              uses: abatilo/actions-poetry@v2
+
+            - name: Install linting (dev) dependencies
+              run: poetry install --only=dev
+
+            - name: Run pre-commit hooks
+              run: SKIP=no-commit-to-branch poetry run pre-commit run --all-files

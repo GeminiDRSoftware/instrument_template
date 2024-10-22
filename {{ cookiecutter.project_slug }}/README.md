@@ -10,16 +10,17 @@ To get started, read through the following information information.
 
 ## Step 1: Confirm the contents of this directory
 
-Your directory structure should *not* contain any of the following:
+Your directory structure should _not_ contain any of the following:
 
-+ Curly braces in file/directory names (e.g., `{` or `}`)
-+ References to "`cookiecutter`" in names or files.
-+ Any IGRINS-specific names or files.
+- Curly braces in file/directory names (e.g., `{` or `}`)
+- References to "`cookiecutter`" in names or files.
+- Any IGRINS-specific names or files.
 
-[github_issues_page]: https://github.com/GeminiDRSoftware/instrument_template/issues
+[github_issues_page]:
+  https://github.com/GeminiDRSoftware/instrument_template/issues
 
-If you encounter any of these, please [create an issue in our instrument template
-github][github_issues_page] describing the problem.
+If you encounter any of these, please [create an issue in our instrument
+template github][github_issues_page] describing the problem.
 
 ## Step 2: Read important documentation
 
@@ -50,19 +51,17 @@ We use `nox` for the purposes of automation. To use `nox`, you'll need to
 install it. We strongly encourage you install it using [`pipx`][pipx_link], but
 you can do what you'd like.
 
-
-+ **To install using [`pipx`][pipx_link] (recommended):**
+- **To install using [`pipx`][pipx_link] (recommended):**
 
 ```bash
 pipx install nox
 ```
 
-+ To install using `pip`:
+- To install using `pip`:
 
 ```bash
 python -m pip install nox
 ```
-
 
 Once installed, to create your new development environment run:
 
@@ -83,29 +82,36 @@ again. It will create a new environment from scratch.
 
 ### What if I need any extra dependencies?
 
-There's a `requirements.txt` file that can also be installed. *However*, we ask
+There's a `requirements.txt` file that can also be installed. _However_, we ask
 you reach out before declaring new dependencies of any kind (including special
 dependencies).
 
 ## Step 4: Explore DRAGONS developer documentation
 
 [DRAGONS docs]: https://dragons.readthedocs.io/en/v3.2.0/
-[AstroData dev docs]: https://dragons.readthedocs.io/projects/astrodata/en/v3.2.0/progmanual/index.html
-[Recipe dev docs]: https://dragons.readthedocs.io/projects/recipe-system-prog-manual/en/v3.2.0/
+[AstroData dev docs]:
+  https://dragons.readthedocs.io/projects/astrodata/en/v3.2.0/progmanual/index.html
+[Recipe dev docs]:
+  https://dragons.readthedocs.io/projects/recipe-system-prog-manual/en/v3.2.0/
 
-We encourage developers to familiarize themselves with the layout of the [DRAGONS documentation][DRAGONS docs], especially:
+We encourage developers to familiarize themselves with the layout of the
+[DRAGONS documentation][DRAGONS docs], especially:
 
-+ [AstroData developer documentation][AstroData dev docs]
-+ [Recipe System developer documentation][Recipe dev docs]
+- [AstroData developer documentation][AstroData dev docs]
+- [Recipe System developer documentation][Recipe dev docs]
 
 ## Step 5: Start coding and ask questions!
 
 If you have any questions, at any time, please reach out to the DRAGONS team!
 
-If you have any questions or comments about this template, please [raise an issue][github_issues_page].
+If you have any questions or comments about this template, please [raise an
+issue][github_issues_page].
 
 ### Can I get rid of all the READMEs?
 
-[project_slug_link]: https://github.com/GeminiDRSoftware/instrument_template/tree/main/%7B%7B%20cookiecutter.project_slug%20%7D%7D
+[project_slug_link]:
+  https://github.com/GeminiDRSoftware/instrument_template/tree/main/%7B%7B%20cookiecutter.project_slug%20%7D%7D
 
-At this point, yes! They will be available (in non-templated form) in the [`{{ cookiecutter.project_slug }}/` directory of the template repo!][project_slug_link]. Don't forget to write your own documentation!
+At this point, yes! They will be available (in non-templated form) in the
+[`{{ cookiecutter.project_slug }}/` directory of the template
+repo!][project_slug_link]. Don't forget to write your own documentation!

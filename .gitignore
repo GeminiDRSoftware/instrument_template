@@ -1,3 +1,6 @@
 # Cached/compiled python
 __pycache__/
 *.pyc
+
+# Ignore underscore-prefixed python files
+.*/_*.py

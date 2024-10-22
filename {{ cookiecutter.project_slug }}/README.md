@@ -16,11 +16,9 @@ Your directory structure should _not_ contain any of the following:
 - References to "`cookiecutter`" in names or files.
 - Any IGRINS-specific names or files.
 
-[github_issues_page]:
-  https://github.com/GeminiDRSoftware/instrument_template/issues
-
-If you encounter any of these, please [create an issue in our instrument
-template github][github_issues_page] describing the problem.
+If you encounter any of these, please
+[create an issue in our instrument template github][github_issues_page]
+describing the problem.
 
 ## Step 2: Read important documentation
 
@@ -44,8 +42,6 @@ These files should cover specific nuances of the code.
 We've created some automations for generating development environments for your
 machine. It ensures you're using the development version of DRAGONS and
 downloads the appropriate dependencies.
-
-[pipx_link]: https://pipx.pypa.io/stable/
 
 We use `nox` for the purposes of automation. To use `nox`, you'll need to
 install it. We strongly encourage you install it using [`pipx`][pipx_link], but
@@ -88,30 +84,28 @@ dependencies).
 
 ## Step 4: Explore DRAGONS developer documentation
 
-[DRAGONS docs]: https://dragons.readthedocs.io/en/v3.2.0/
-[AstroData dev docs]:
-  https://dragons.readthedocs.io/projects/astrodata/en/v3.2.0/progmanual/index.html
-[Recipe dev docs]:
-  https://dragons.readthedocs.io/projects/recipe-system-prog-manual/en/v3.2.0/
-
 We encourage developers to familiarize themselves with the layout of the
-[DRAGONS documentation][DRAGONS docs], especially:
+[DRAGONS documentation][dragons docs], especially:
 
-- [AstroData developer documentation][AstroData dev docs]
-- [Recipe System developer documentation][Recipe dev docs]
+- [AstroData developer documentation][astrodata dev docs]
+- [Recipe System developer documentation][recipe dev docs]
 
 ## Step 5: Start coding and ask questions!
 
 If you have any questions, at any time, please reach out to the DRAGONS team!
 
-If you have any questions or comments about this template, please [raise an
-issue][github_issues_page].
+If you have any questions or comments about this template, please
+[raise an issue][github_issues_page].
 
 ### Can I get rid of all the READMEs?
 
-[project_slug_link]:
-  https://github.com/GeminiDRSoftware/instrument_template/tree/main/%7B%7B%20cookiecutter.project_slug%20%7D%7D
-
 At this point, yes! They will be available (in non-templated form) in the
-[`{{ cookiecutter.project_slug }}/` directory of the template
-repo!][project_slug_link]. Don't forget to write your own documentation!
+[`{{ cookiecutter.project_slug }}/` directory of the template repo!][project_slug_link].
+Don't forget to write your own documentation!
+
+[astrodata dev docs]: https://dragons.readthedocs.io/projects/astrodata/en/v3.2.0/progmanual/index.html
+[dragons docs]: https://dragons.readthedocs.io/en/v3.2.0/
+[github_issues_page]: https://github.com/GeminiDRSoftware/instrument_template/issues
+[pipx_link]: https://pipx.pypa.io/stable/
+[project_slug_link]: https://github.com/GeminiDRSoftware/instrument_template/tree/main/%7B%7B%20cookiecutter.project_slug%20%7D%7D
+[recipe dev docs]: https://dragons.readthedocs.io/projects/recipe-system-prog-manual/en/v3.2.0/

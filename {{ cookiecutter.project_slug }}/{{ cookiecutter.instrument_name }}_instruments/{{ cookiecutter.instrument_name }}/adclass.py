@@ -1,8 +1,7 @@
-from astrodata import astro_data_tag, astro_data_descriptor, returns_list, TagSet
-from gemini_instruments import gmu
-from gemini_instruments.common import Section
+from astrodata import astro_data_tag, astro_data_descriptor, TagSet
 from . import lookup
 from gemini_instruments.gemini import AstroDataGemini
+
 
 class AstroDataIGRINS(AstroDataGemini):
     # single keyword mapping.  add only the ones that are different
@@ -12,16 +11,15 @@ class AstroDataIGRINS(AstroDataGemini):
 
     @staticmethod
     def _matches_data(source):
-        return source[0].header.get('INSTRUME', '').upper() == 'IGRINS-2'
+        return source[0].header.get("INSTRUME", "").upper() == "IGRINS-2"
 
     @astro_data_tag
     def _tag_instrument(self):
-        return TagSet(['IGRINS', 'VERSION2'])
-
+        return TagSet(["IGRINS", "VERSION2"])
 
     @astro_data_tag
     def _tag_flat(self):
-        #if self.phu.get('SOMEKEYWORD') == 'Flat_or_something':
+        # if self.phu.get('SOMEKEYWORD') == 'Flat_or_something':
         #    return TagSet(['FLAT', 'CAL']])
         pass
 
@@ -39,6 +37,4 @@ class AstroDataIGRINS(AstroDataGemini):
         float/list
             gain
         """
-        return lookup.array_properties.get('gain')
-
-
+        return lookup.array_properties.get("gain")

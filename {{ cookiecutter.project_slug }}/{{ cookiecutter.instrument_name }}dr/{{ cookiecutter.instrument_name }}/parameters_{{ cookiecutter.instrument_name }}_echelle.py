@@ -3,6 +3,7 @@
 
 from gempy.library import config
 
+
 class myNewPrimitiveConfig(config.Config):
     suffix = config.Field("Filename suffix", str, "_suffix")
     param1 = config.Field("Param1", str, "default")

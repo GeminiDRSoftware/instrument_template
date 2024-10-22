@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "dragons-instrument-template"
+version = "0.1.0"
+description = "Template for onboarding instruments into the DRAGONS ecosystem."
+authors = ["Teal <dillon.teal@noirlab.edu>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+nox = "^2024.4.15"
+pre-commit = "^3.8.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

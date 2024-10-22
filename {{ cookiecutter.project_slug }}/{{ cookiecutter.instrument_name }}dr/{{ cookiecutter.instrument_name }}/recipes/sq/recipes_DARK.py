@@ -3,7 +3,8 @@ Recipes available to data with tags ['IGRINS', 'CAL', 'DARK'].
 Default is "makeProcessedDark"
 """
 
-recipe_tags = {'IGRINS', 'CAL', 'DARK'}
+recipe_tags = {"IGRINS", "CAL", "DARK"}
+
 
 def makeProcessedDark(p):
     """
@@ -22,8 +23,9 @@ def makeProcessedDark(p):
     p.prepare()
     p.addDQ()
     p.addVAR(read_noise=True)
-    #....
+    # ....
     p.storeProcessedDark()
     return
+
 
 _default = makeProcessedDark

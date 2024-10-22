@@ -3,7 +3,8 @@ Recipes available to data with tags ['IGRINS', 'ECHELLE']
 Default is "reduce".
 """
 
-recipe_tags = {'IGRINS', 'ECHELLE'}
+recipe_tags = {"IGRINS", "ECHELLE"}
+
 
 def reduce(p):
     """
@@ -20,8 +21,9 @@ def reduce(p):
     p.addVAR(read_noise=True)
     p.ADUToElectrons()
     p.addVAR(poisson_noise=True)
-    #....
-    #....
+    # ....
+    # ....
     return
+
 
 _default = reduce

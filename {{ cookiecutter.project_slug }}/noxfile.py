@@ -62,6 +62,10 @@ def devenv(session: nox.Session):
         external=True,
     )
 
+    requirements_file = Path("requirements.txt")
+
+    session.install("-r", str(requirements_file))
+
     venv_activate = venv_loc / "bin" / "activate"
 
     session.log(

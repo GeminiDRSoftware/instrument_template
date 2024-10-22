@@ -15,6 +15,7 @@ from .lookups import timestamp_keywords as igrins_stamps
 from recipe_system.utils.decorators import parameter_override
 # ------------------------------------------------------------------------------
 
+
 @parameter_override
 class Igrins(Gemini):
     """
@@ -47,18 +48,16 @@ class Igrins(Gemini):
         log.debug(gt.log_message("primitive", self.myself(), "starting"))
 
         for ad in adinputs:
-            log.status('I see '+ad.filename)
+            log.status("I see " + ad.filename)
 
             gt.mark_history(ad, primname=self.myself(), keyword="TEST")
-            ad.update_filename(suffix=params['suffix'], strip=True)
+            ad.update_filename(suffix=params["suffix"], strip=True)
 
         return adinputs
 
-
     @staticmethod
     def _has_valid_extensions(ad):
-        """ Check that the AD has a valid number of extensions. """
+        """Check that the AD has a valid number of extensions."""
 
         # this needs to be updated at appropriate.
         return len(ad) in [1]
-

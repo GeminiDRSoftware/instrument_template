@@ -3,11 +3,10 @@
 # redefine them here in filter_wavelengths.
 
 filter_wavelengths = {
-#    'r' : 0.60,
+    #    'r' : 0.60,
 }
 
 array_properties = {
     # EDIT AS NEEDED
-    "gain"  :  3,   # electrons/ADU  (MADE UP VALUE for example)
-
+    "gain": 3,  # electrons/ADU  (MADE UP VALUE for example)
 }

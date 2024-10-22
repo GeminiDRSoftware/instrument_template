@@ -1,7 +1,8 @@
 {
   "instrument_name": "DEFAULT_INSTRUMENT_NAME",
   "instrument_name_lower": "{{ cookiecutter.instrument_name.lower() }}",
+  "instrument_name_title": "{{ cookiecutter.instrument_name_lower.title() }}",
   "project_slug": "{{ cookiecutter.instrument_name_lower }}_dr_package",
   "primary_author": "DEFAULT_AUTHOR_NAME",
-  "primary_author_email": "DEFAULT_AUTHOR_EMAIL",
+  "primary_author_email": "DEFAULT_AUTHOR_EMAIL"
 }

@@ -56,7 +56,7 @@ def test(session: nox.Session):
     """Test the cookiecutter template."""
     session.install("pytest", "pytest-cookies")
 
-    session.run("pytest", *session.posargs)
+    session.run("pytest", "tests/", *session.posargs)
 
     session.notify("test_filled_template")
 
@@ -103,6 +103,8 @@ def test_filled_template(session: nox.Session):
             "import gemini_instruments",
             "import geminidr",
             "import gempy",
+            "import gemini_obs_db",
+            "import gemini_calmgr",
         )
 
         session.run(
@@ -111,3 +113,6 @@ def test_filled_template(session: nox.Session):
             "\n".join(test_imports),
             external=True,
         )
+
+        # Run the tests.
+        session.run("nox", "-s", "tests")

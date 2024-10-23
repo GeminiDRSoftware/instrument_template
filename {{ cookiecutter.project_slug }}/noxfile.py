@@ -55,15 +55,7 @@ def devenv(session: nox.Session):
     venv_python = venv_loc / "bin" / "python"
 
     # Install DRAGONS
-    # This should not be consolidated with the install_dragons() function
-    session.run(
-        str(venv_python),
-        "-m",
-        "pip",
-        "install",
-        f"git+{DRAGONS_URL}",
-        external=True,
-    )
+    install_dragons(session)
 
     requirements_file = Path("requirements.txt")
 

@@ -11,22 +11,10 @@ LOGGER = logging.getLogger(__name__)
 
 def test_no_igrins_references(cookies):
     """There should not be any reference to igrins in the template."""
-    for root, directories, files in os.walk("."):
+    for root, directories, files in os.walk("{{ cookiecutter.project_slug }}"):
         for path in (Path(root) / base for base in chain(directories, files)):
             # Skip correction scipt
             if "_correct_all_igrins_ref" in str(path):
-                continue
-
-            # Skip this file
-            if path.resolve() == Path(__file__).resolve():
-                continue
-
-            # Ignore caches
-            if "cache" in str(path):
-                continue
-
-            # Ignore .git
-            if ".git/" in str(path):
                 continue
 
             assert "igrins" not in str(path).lower(), f"Igrins found in: {path}"
@@ -52,7 +40,7 @@ def test_no_igrins_references(cookies):
                 ), f"IGRINS ref found ({path}::{i}):\n{line}"
 
 
-def test_default_tempalte(cookies, monkeypatch):
+def test_default_template(cookies, monkeypatch):
     """Test that the default template fills in correctly."""
     result = cookies.bake()
 

@@ -27,8 +27,7 @@ def cookiecutter_tests(session: nox.Session):
 @nox.session
 def lint(session: nox.Session):
     """Run linters. Since cookiecutter formatting (double curly braces) is not
-    supported by ruff, we will escape those values specifically for ruff.
-    """
+    supported by ruff, we will escape those values specifically for ruff."""
     session.install("pre-commit")
     session.run_install("pre-commit", "install")
     session.run("pre-commit", "run", "--all-files")
@@ -48,3 +47,11 @@ def initialize_commit_hooks(session: nox.Session):
         "--hook-type=pre-commit",
         "--hook-type=commit-msg",
     )
+
+
+@nox.session
+def test(session: nox.Session):
+    """Test the cookiecutter template."""
+    session.install("pytest", "pytest-cookies")
+
+    session.run("pytest", *session.posargs)

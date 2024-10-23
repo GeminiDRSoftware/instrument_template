@@ -14,8 +14,12 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
+      matrix:
+        python: [ "3.10", "3.11", "3.12" ]
 
     steps:
     - uses: actions/checkout@v4
     - uses: excitedleigh/setup-nox@v2.1.0
-    - run: nox -s test
+
+      name: ${{ matrix.python }}
+    - run: nox -s test -p ${{ matrix.python }}

@@ -6,28 +6,27 @@ repos:
   rev: v4.6.0
   hooks:
   - id: check-yaml
-    exclude: "{{cookiecutter.project_slug}}"
+    exclude: "{{ cookiecutter.project_slug }}"
   - id: check-json
-    exclude: "{{cookiecutter.project_slug}}"
+    exclude: "{{ cookiecutter.project_slug }}"
   - id: check-toml
-    exclude: "{{cookiecutter.project_slug}}"
+    exclude: "{{ cookiecutter.project_slug }}"
   - id: check-docstring-first
   - id: check-case-conflict
   - id: trailing-whitespace
   - id: end-of-file-fixer
   - id: check-symlinks
   - id: check-vcs-permalinks
-  - id: debug-statements
   - id: forbid-submodules
 
 - repo: https://github.com/charliermarsh/ruff-pre-commit
   rev: v0.6.6
   hooks:
     - id: ruff
-      exclude: "{{cookiecutter.project_slug}}"
+      exclude: "{{ cookiecutter.project_slug }}"
       args: ['--fix']
     - id: ruff-format
-      exclude: "{{cookiecutter.project_slug}}"
+      exclude: "{{ cookiecutter.project_slug }}"
 
 - repo: https://github.com/executablebooks/mdformat
   rev: 0.7.18  # Use the ref you want to point at

@@ -75,6 +75,17 @@ There's a `requirements.txt` file that can also be installed. _However_, we ask
 you reach out before declaring new dependencies of any kind (including special
 dependencies).
 
+### What about testing?
+
+Tests are also run through `nox`:
+
+```bash
+nox -s tests
+```
+
+This will run `pytest` for you in an isolated environment, which ensures no
+global or external dependencies sneak in.
+
 ## Step 4: Explore DRAGONS developer documentation
 
 We encourage developers to familiarize themselves with the layout of the

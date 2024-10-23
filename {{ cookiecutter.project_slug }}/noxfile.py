@@ -17,8 +17,8 @@ nox.options.sessions = []
 nox.options.error_on_external_run = True
 
 DRAGONS_URL = R"https://github.com/GeminiDRSoftware/DRAGONS"
-CALMGR_URL = R"https://github.com/GeminiDRSoftware/GeminiCalMgr"
-OBSDB_URL = R"https://github.com/GeminiDRSoftware/GeminiObsDB"
+CALMGR_URL = R"https://github.com/GeminiDRSoftware/GeminiCalMgr@release/1.0.x"
+OBSDB_URL = R"https://github.com/GeminiDRSoftware/GeminiObsDB@release/1.1.x"
 
 
 def install_dragons(session: nox.Session):

@@ -10,14 +10,8 @@ To get started, read through the following information information.
 
 ## Step 1: Confirm the contents of this directory
 
-Your directory structure should _not_ contain any of the following:
-
-- Curly braces in file/directory names (e.g., `{` or `}`)
-- References to "`cookiecutter`" in names or files.
-
-If you encounter any of these, please
-[create an issue in our instrument template github][github_issues_page] with the
-location of the error.
+Make sure everything you expect is here. If you don't know what to expect, you
+can compare to the [project slug][project_slug_link].
 
 ## Step 2: Read important documentation
 

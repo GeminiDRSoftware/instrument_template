@@ -3,4 +3,4 @@
 
 import astrodata
 
-from . import igrins
+from . import {{ cookiecutter.instrument_name_lower }}

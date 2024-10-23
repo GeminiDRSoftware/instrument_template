@@ -1,0 +1,21 @@
+# Test workflow for the cookiecutter template.
+
+name: Python package
+
+on:
+  push:
+    branches: [ $default-branch ]
+  pull_request:
+    branches: [ $default-branch ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+
+    steps:
+    - uses: actions/checkout@v4
+    - uses: excitedleigh/setup-nox@v2.1.0
+    - run: nox -s test

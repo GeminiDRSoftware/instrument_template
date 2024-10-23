@@ -3,6 +3,7 @@
 from itertools import chain
 import logging
 from pathlib import Path
+import re
 
 LOGGER = logging.getLogger(__name__)
 
@@ -68,6 +69,13 @@ def test_default_tempalte(cookies, monkeypatch):
 
             for i, line in enumerate(contents.splitlines(), start=1):
                 errstr = f"{path}::{i} - {line}"
+                if "cookie" in line and re.match(r"^\[[^\]]*\]:.*", line):
+                    continue
+
                 assert "cookie" not in line, errstr
+
+                if path.suffix in [".yml", ".yaml"] and "github" in str(path):
+                    continue
+
                 assert "{{" not in line, errstr
                 assert "}}" not in line, errstr

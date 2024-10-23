@@ -69,6 +69,8 @@ def test_default_tempalte(cookies, monkeypatch):
 
             for i, line in enumerate(contents.splitlines(), start=1):
                 errstr = f"{path}::{i} - {line}"
+
+                # Ignore markdown links
                 if "cookie" in line and re.match(r"^\[[^\]]*\]:.*", line):
                     continue
 

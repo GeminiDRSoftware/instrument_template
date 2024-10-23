@@ -44,7 +44,30 @@ def test_no_igrins_references(cookies):
             # Slow but doesn't need to be fast (no big files).
             lines = contents.splitlines()
 
-            for i, line in enumerate(lines):
+            for i, line in enumerate(lines, start=1):
                 assert (
                     "igrins" not in line.lower()
                 ), f"IGRINS ref found ({path}::{i}):\n{line}"
+
+
+def test_default_tempalte(cookies, monkeypatch):
+    """Test that the default template fills in correctly."""
+    result = cookies.bake()
+
+    assert result.exit_code == 0
+
+    monkeypatch.chdir(str(result.project_path))
+    for root, directories, files in Path(".").walk():
+        for path in (root / base for base in chain(directories, files)):
+            assert "cookie" not in str(path).lower(), path
+
+            if not path.is_file():
+                continue
+
+            contents = path.read_text()
+
+            for i, line in enumerate(contents.splitlines(), start=1):
+                errstr = f"{path}::{i} - {line}"
+                assert "cookie" not in line, errstr
+                assert "{{" not in line, errstr
+                assert "}}" not in line, errstr

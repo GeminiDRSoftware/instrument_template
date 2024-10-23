@@ -2,6 +2,7 @@
 
 from itertools import chain
 import logging
+import os
 from pathlib import Path
 import re
 
@@ -10,8 +11,8 @@ LOGGER = logging.getLogger(__name__)
 
 def test_no_igrins_references(cookies):
     """There should not be any reference to igrins in the template."""
-    for root, directories, files in Path(".").walk():
-        for path in (root / base for base in chain(directories, files)):
+    for root, directories, files in os.walk("."):
+        for path in (Path(root) / base for base in chain(directories, files)):
             # Skip correction scipt
             if "_correct_all_igrins_ref" in str(path):
                 continue
@@ -58,8 +59,8 @@ def test_default_tempalte(cookies, monkeypatch):
     assert result.exit_code == 0
 
     monkeypatch.chdir(str(result.project_path))
-    for root, directories, files in Path(".").walk():
-        for path in (root / base for base in chain(directories, files)):
+    for root, directories, files in os.walk(Path(".")):
+        for path in (Path(root) / base for base in chain(directories, files)):
             assert "cookie" not in str(path).lower(), path
 
             if not path.is_file():

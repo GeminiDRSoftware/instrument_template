@@ -1,35 +1,35 @@
 #
 #                                                                       DRAGONS
 #
-#                                                         primitives_igrins.py
+#                                                         primitives_{{ cookiecutter.instrument_name_lower }}.py
 # ------------------------------------------------------------------------------
 
 from gempy.gemini import gemini_tools as gt
 
 from geminidr.gemini.primitives_gemini import Gemini
 
-from . import parameters_igrins
+from . import parameters_{{ cookiecutter.instrument_name_lower }}
 
-from .lookups import timestamp_keywords as igrins_stamps
+from .lookups import timestamp_keywords as {{ cookiecutter.instrument_name_lower }}_stamps
 
 from recipe_system.utils.decorators import parameter_override
 # ------------------------------------------------------------------------------
 
 
 @parameter_override
-class Igrins(Gemini):
+class {{ cookiecutter.instrument_name_title }}(Gemini):
     """
     This class inherits from the level above.  Any primitives specific
-    to IGRINS can go here.
+    to {{ cookiecutter.instrument_name }} can go here.
     """
 
-    tagset = {"GEMINI", "IGRINS"}
+    tagset = {"GEMINI", "{{ cookiecutter.instrument_name }}"}
 
     def __init__(self, adinputs, **kwargs):
-        super(Igrins, self).__init__(adinputs, **kwargs)
-        self._param_update(parameters_igrins)
-        # Add IGRINS specific timestamp keywords
-        self.timestamp_keys.update(igrins_stamps.timestamp_keys)
+        super({{ cookiecutter.instrument_name_title }}, self).__init__(adinputs, **kwargs)
+        self._param_update(parameters_{{ cookiecutter.instrument_name_lower }})
+        # Add {{ cookiecutter.instrument_name }} specific timestamp keywords
+        self.timestamp_keys.update({{ cookiecutter.instrument_name_lower }}_stamps.timestamp_keys)
 
     def someStuff(self, adinputs=None, **params):
         """

@@ -1,14 +1,14 @@
 """
-Recipes available to data with tags ['IGRINS', 'ECHELLE']
+Recipes available to data with tags ['{{ cookiecutter.instrument_name }}', 'ECHELLE']
 Default is "reduce".
 """
 
-recipe_tags = {"IGRINS", "ECHELLE"}
+recipe_tags = {"{{ cookiecutter.instrument_name }}", "ECHELLE"}
 
 
 def reduce(p):
     """
-    This recipe processes IGRINS echelle science data.
+    This recipe processes {{ cookiecutter.instrument_name }} echelle science data.
 
     Parameters
     ----------

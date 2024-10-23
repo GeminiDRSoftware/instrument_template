@@ -1,5 +1,5 @@
 # This parameter file contains the parameters related to the primitives
-# define in the primitives_igrins.py file
+# define in the primitives_{{ cookiecutter.instrument_name_lower }}.py file
 
 from gempy.library import config
 

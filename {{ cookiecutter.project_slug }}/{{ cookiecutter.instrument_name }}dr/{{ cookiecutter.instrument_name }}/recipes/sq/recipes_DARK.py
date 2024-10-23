@@ -1,9 +1,9 @@
 """
-Recipes available to data with tags ['IGRINS', 'CAL', 'DARK'].
+Recipes available to data with tags ['{{ cookiecutter.instrument_name }}', 'CAL', 'DARK'].
 Default is "makeProcessedDark"
 """
 
-recipe_tags = {"IGRINS", "CAL", "DARK"}
+recipe_tags = {"{{ cookiecutter.instrument_name }}", "CAL", "DARK"}
 
 
 def makeProcessedDark(p):

@@ -1,31 +1,31 @@
 #
 #                                                                       DRAGONS
 #
-#                                                   primitives_igrins_echelle.py
+#                                                   primitives_{{ cookiecutter.instrument_name_lower }}_echelle.py
 # ------------------------------------------------------------------------------
 
 from gempy.gemini import gemini_tools as gt
 
 from geminidr.core.primitives_spect import Spect
-from .primitives_igrins import Igrins
-from . import parameters_igrins_echelle
+from .primitives_{{ cookiecutter.instrument_name_lower }} import {{ cookiecutter.instrument_name_title }}
+from . import parameters_{{ cookiecutter.instrument_name_lower }}_echelle
 
 from recipe_system.utils.decorators import parameter_override
 # ------------------------------------------------------------------------------
 
 
 @parameter_override
-class IgrinsEchelle(Igrins, Spect):
+class {{ cookiecutter.instrument_name_title }}Echelle({{ cookiecutter.instrument_name_title }}, Spect):
     """
-    This class contains primitives that applies to IGRINS echelle data.
+    This class contains primitives that applies to {{ cookiecutter.instrument_name }} echelle data.
     """
 
-    tagset = {"GEMINI", "IGRINS", "ECHELLE"}
+    tagset = {"GEMINI", "{{ cookiecutter.instrument_name }}", "ECHELLE"}
 
     def __init__(self, adinputs, **kwargs):
-        super(IgrinsEchelle, self).__init__(adinputs, **kwargs)
-        self.inst_lookups = "igrinsdr.igrins.lookups"
-        self._param_update(parameters_igrins_echelle)
+        super({{ cookiecutter.instrument_name_title }}Echelle, self).__init__(adinputs, **kwargs)
+        self.inst_lookups = "{{ cookiecutter.instrument_name_lower }}dr.{{ cookiecutter.instrument_name_lower }}.lookups"
+        self._param_update(parameters_{{ cookiecutter.instrument_name_lower }}_echelle)
 
     def myNewPrimitive(self, adinputs=None, **params):
         """

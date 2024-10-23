@@ -3,7 +3,7 @@ from . import lookup
 from gemini_instruments.gemini import AstroDataGemini
 
 
-class AstroDataIGRINS(AstroDataGemini):
+class AstroData{{ cookiecutter.instrument_name }}(AstroDataGemini):
     # single keyword mapping.  add only the ones that are different
     # from what's already defined in AstroDataGemini.
 
@@ -11,11 +11,11 @@ class AstroDataIGRINS(AstroDataGemini):
 
     @staticmethod
     def _matches_data(source):
-        return source[0].header.get("INSTRUME", "").upper() == "IGRINS-2"
+        return source[0].header.get("INSTRUME", "").upper() == "{{ cookiecutter.instrument_fits_name }}"
 
     @astro_data_tag
     def _tag_instrument(self):
-        return TagSet(["IGRINS", "VERSION2"])
+        return TagSet(["{{ cookiecutter.instrument_name }}", "VERSION2"])
 
     @astro_data_tag
     def _tag_flat(self):

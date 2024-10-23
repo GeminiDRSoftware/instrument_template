@@ -17,12 +17,38 @@ nox.options.sessions = []
 nox.options.error_on_external_run = True
 
 DRAGONS_URL = R"https://github.com/GeminiDRSoftware/DRAGONS"
-CALMGR_URL = R"https://github.com/GeminiDRSoftware/GeminiCalMgr@release/1.0.x"
-OBSDB_URL = R"https://github.com/GeminiDRSoftware/GeminiObsDB@release/1.1.x"
+CALMGR_URL = R"https://github.com/GeminiDRSoftware/GeminiCalMgr.git@release/1.1.x"
+OBSDB_URL = R"https://github.com/GeminiDRSoftware/GeminiObsDB.git@release/1.0.x"
 
 
-def install_dragons(session: nox.Session):
-    """Install dragons into the given session."""
+def install_dragons(session: nox.Session, python: Path | None = None):
+    """Install dragons into the given session.
+
+    If python is not None, it assumes it is a path to the
+    correct python binary to use.
+    """
+    if python:
+        session.run(
+            str(python),
+            "-m",
+            "pip",
+            "install",
+            f"git+{DRAGONS_URL}",
+            external=True,
+        )
+
+        session.run(
+            str(python),
+            "-m",
+            "pip",
+            "install",
+            f"git+{CALMGR_URL}",
+            f"git+{OBSDB_URL}",
+            external=True,
+        )
+
+        return
+
     session.install(f"git+{DRAGONS_URL}")
     session.install(f"git+{CALMGR_URL}", f"git+{OBSDB_URL}")
 
@@ -55,11 +81,19 @@ def devenv(session: nox.Session):
     venv_python = venv_loc / "bin" / "python"
 
     # Install DRAGONS
-    install_dragons(session)
+    install_dragons(session, python=venv_python)
 
     requirements_file = Path("requirements.txt")
 
-    session.install("-r", str(requirements_file))
+    session.run(
+        venv_python,
+        "-m",
+        "pip",
+        "install",
+        "-r",
+        str(requirements_file),
+        external=True,
+    )
 
     venv_activate = venv_loc / "bin" / "activate"
 

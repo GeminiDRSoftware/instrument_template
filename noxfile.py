@@ -6,24 +6,8 @@ import shutil
 
 import nox
 
-nox.options.sessions = ["cookiecutter_tests"]
+nox.options.sessions = ["test"]
 nox.options.error_on_external_run = True
-
-
-@nox.session(python="3.12")
-def cookiecutter_tests(session: nox.Session):
-    """Tests for the cookiecutter itself."""
-    # Remove cache files for nox if they exist in the template directory.
-    rmdirs = [".nox", ".pytest_cache"]
-    template_path = Path("{{cookiecutter.project_slug}}")
-
-    for rmdir in rmdirs:
-        if (template_path / rmdir).exists():
-            session.log(f"Removing {rmdir} directory.")
-            shutil.rmtree(template_path / rmdir)
-
-    session.install("pytest", "pytest-cookies", "hypothesis")
-    session.run("pytest", "tests/", *session.posargs)
 
 
 @nox.session
@@ -93,6 +77,9 @@ def test_filled_template(session: nox.Session):
 
     with session.chdir(new_package_path):
         # Create a development environment and ensure packages are installed.
+        session.log(80 * "=")
+        session.log("  GENERATING DEVELOPMENT ENVIRONMENT")
+        session.log(80 * "=")
         session.run("nox", "-s", "devenv")
 
         venv_loc = Path("venv")
@@ -114,5 +101,9 @@ def test_filled_template(session: nox.Session):
             external=True,
         )
 
+        session.log(80 * "=")
+        session.log("  RUNNING TESTS ON GENERATED TEMPLATE")
+        session.log(80 * "=")
+
         # Run the tests.
-        session.run("nox", "-s", "tests")
+        session.run("nox", "-s", "tests", "--verbose")

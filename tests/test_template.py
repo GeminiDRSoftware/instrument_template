@@ -15,7 +15,19 @@ def test_no_igrins_references(cookies):
             if "_correct_all_igrins_ref" in str(path):
                 continue
 
-            assert "igrins" not in str(path).lower()
+            # Skip this file
+            if path.resolve() == Path(__file__).resolve():
+                continue
+
+            # Ignore caches
+            if "cache" in str(path):
+                continue
+
+            # Ignore .git
+            if ".git/" in str(path):
+                continue
+
+            assert "igrins" not in str(path).lower(), f"Igrins found in: {path}"
 
             if path.is_dir():
                 continue

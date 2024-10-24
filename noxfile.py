@@ -53,7 +53,9 @@ def test_filled_template(session: nox.Session):
     tmp_dir = Path(session.create_tmp()).resolve()
 
     if tmp_dir.exists():
-        all_dirs = [root / dir for root, dirs, _ in os.walk(tmp_dir) for dir in dirs]
+        all_dirs = [
+            Path(root) / dir for root, dirs, _ in os.walk(tmp_dir) for dir in dirs
+        ]
         for path in all_dirs:
             if path.exists():
                 shutil.rmtree(path)

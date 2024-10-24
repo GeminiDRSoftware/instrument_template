@@ -20,11 +20,8 @@ jobs:
             - uses: actions/checkout@v4
             - uses: actions/setup-python@v4
 
-            - name: Run image
-              uses: abatilo/actions-poetry@v2
-
-            - name: Install linting (dev) dependencies
-              run: poetry install --only=dev
+            - name: Install pre-commit
+              run: pip install pre-commit
 
             - name: Run pre-commit hooks
-              run: SKIP=no-commit-to-branch poetry run pre-commit run --all-files
+              run: SKIP=no-commit-to-branch pre-commit run --all-files

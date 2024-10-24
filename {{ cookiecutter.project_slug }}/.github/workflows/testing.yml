@@ -33,13 +33,9 @@ jobs:
                     # - macos-latest
                     # - windows-latest
                 test-session:
-                    - unit_tests
-                    - integration_tests
-                    - build_tests
+                    - tests
                 python-version:
                     - "3.10"
-                    - "3.11"
-                    - "3.12"
 
         steps:
         - name: Checkout repository
@@ -52,9 +48,6 @@ jobs:
           uses: actions/setup-python@v2
           with:
             python-version: {{ "${{ matrix.python-version }}" }}
-
-        - name: Install dependencies
-          run: python -m pip install --upgrade pip nox poetry
 
         - name: {{ "${{ matrix.os }} - ${{ matrix.python-version }} - ${{ matrix.test-session }}" }}
           run: {{ "nox -s ${{ matrix.test-session }}-${{ matrix.python-version }}" }}

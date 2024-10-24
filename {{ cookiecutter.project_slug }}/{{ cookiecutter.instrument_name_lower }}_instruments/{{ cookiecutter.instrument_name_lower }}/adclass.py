@@ -3,7 +3,7 @@ from . import lookup
 from gemini_instruments.gemini import AstroDataGemini
 
 
-class AstroData{{ cookiecutter.instrument_name }}(AstroDataGemini):
+class AstroData{{ cookiecutter.instrument_name_title }}(AstroDataGemini):
     # single keyword mapping.  add only the ones that are different
     # from what's already defined in AstroDataGemini.
 

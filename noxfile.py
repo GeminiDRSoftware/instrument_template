@@ -3,6 +3,7 @@
 from pathlib import Path
 import os
 import shutil
+import tempfile
 
 import nox
 
@@ -116,3 +117,41 @@ def test_filled_template(session: nox.Session):
 
         # Run the tests.
         session.run("nox", "-s", "tests", "--verbose")
+
+
+@nox.session()
+def test_lint_run_template(session: nox.Session):
+    """Creates a new repo from template and lints it."""
+    session.install("cookiecutter", "pre-commit", "nox")
+
+    # Need to not use nox' temporary directories to avoid submodule issues.
+    with tempfile.TemporaryDirectory() as tmp_dir_name:
+        tmp_dir = Path(tmp_dir_name)
+
+        template_dir = Path(".").resolve()
+
+        with session.chdir(".."):
+            session.run(
+                "cookiecutter",
+                "--no-input",
+                "--default-config",
+                str(template_dir),
+                "-o",
+                str(tmp_dir),
+            )
+
+        new_package_path = tmp_dir / "default_instrument_name_dr_package"
+
+        with session.chdir(tmp_dir):
+            assert new_package_path.exists()
+
+        with session.chdir(new_package_path):
+            session.run("git", "init", external=True)
+            session.run("git", "add", ".", external=True)
+            session.run(
+                "pre-commit",
+                "run",
+                "-c",
+                "./.pre-commit-config.yaml",
+                "--all-files",
+            )

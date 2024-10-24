@@ -44,6 +44,7 @@ def test(session: nox.Session):
     session.run("pytest", "tests/", *session.posargs)
 
     session.notify("test_filled_template")
+    session.notify("test_lint_run_template")
 
 
 @nox.session(python=["3.10", "3.11", "3.12"])

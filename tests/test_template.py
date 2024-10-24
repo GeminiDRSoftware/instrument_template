@@ -54,7 +54,12 @@ def test_default_template(cookies, monkeypatch):
             if not path.is_file():
                 continue
 
-            contents = path.read_text()
+            try:
+                contents = path.read_text()
+
+            except UnicodeDecodeError as err:
+                LOGGER.info(f"Skipping {path}: got UnicodeDecodeError {err}")
+                continue
 
             for i, line in enumerate(contents.splitlines(), start=1):
                 errstr = f"{path}::{i} - {line}"

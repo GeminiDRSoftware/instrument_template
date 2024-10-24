@@ -88,7 +88,7 @@ def test_filled_template(session: nox.Session):
         venv_python = venv_loc / "bin" / "python"
 
         instrument = "default_instrument_name"
-        instrument_title = "Default_Dnstrument_Name"
+        instrument_title = "Default_Instrument_Name"
 
         test_imports = (
             "import astrodata",
@@ -99,7 +99,7 @@ def test_filled_template(session: nox.Session):
             "import gemini_calmgr",
             f"import {instrument}_instruments",
             f"import {instrument}_instruments.{instrument}",
-            f"import {instrument}_instruments.{instrument}.{instrument_title}",
+            f"from {instrument}_instruments.{instrument} import AstroData{instrument_title}",
             f"import {instrument}dr",
         )
 

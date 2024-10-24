@@ -2,9 +2,9 @@ __all__ = ["AstroData{{ cookiecutter.instrument_name }}"]
 
 from astrodata import factory
 from gemini_instruments.gemini import addInstrumentFilterWavelengths
-from .adclass import AstroData{{ cookiecutter.instrument_name }}
+from .adclass import AstroData{{ cookiecutter.instrument_name_title }}
 from .lookup import filter_wavelengths
 
-factory.addClass(AstroData{{ cookiecutter.instrument_name }})
+factory.addClass(AstroData{{ cookiecutter.instrument_name_title }})
 
 addInstrumentFilterWavelengths("fox", filter_wavelengths)

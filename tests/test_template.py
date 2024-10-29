@@ -50,6 +50,7 @@ def test_default_template(cookies, monkeypatch):
     for root, directories, files in os.walk(Path(".")):
         for path in (Path(root) / base for base in chain(directories, files)):
             assert "cookie" not in str(path).lower(), path
+            assert not any(c in str(path) for c in R"{}"), path
 
             if not path.is_file():
                 continue
@@ -57,6 +58,7 @@ def test_default_template(cookies, monkeypatch):
             try:
                 contents = path.read_text()
 
+            # This is kind of lazy, it'd be better to specify files to ignore in case an unexpected item slips in that would be caught here.
             except UnicodeDecodeError as err:
                 LOGGER.info(f"Skipping {path}: got UnicodeDecodeError {err}")
                 continue
@@ -73,5 +75,5 @@ def test_default_template(cookies, monkeypatch):
                 if path.suffix in [".yml", ".yaml"] and "github" in str(path):
                     continue
 
-                assert "{{" not in line, errstr
-                assert "}}" not in line, errstr
+                assert r"{{" not in line, errstr
+                assert r"}}" not in line, errstr

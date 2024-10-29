@@ -86,6 +86,18 @@ nox -s tests
 This will run `pytest` for you in an isolated environment, which ensures no
 global or external dependencies sneak in.
 
+### What about linting?
+
+You can lint your code manually using `nox` by running
+
+```bash
+nox -s lint
+```
+
+[pre-commit install]: https://pre-commit.com/
+
+This will run [`pre-commit`][pre-commit install] over your code. It is already installed in your development environment, and the development environment setup also installs `pre-commit` hooks that run automatically before you commit your changes.
+
 ## Step 4: Explore DRAGONS developer documentation
 
 We encourage developers to familiarize themselves with the layout of the

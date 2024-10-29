@@ -103,9 +103,18 @@ def devenv(session: nox.Session):
         f"     source {venv_activate}\n"
     )
 
+    session.notify("install_pre_commit_hooks")
+
 
 @nox.session()
-def tests(session: nox.session):
+def install_pre_commit_hooks(session: nox.Session):
+    """Installs pre-commit hooks."""
+    session.install("pre-commit")
+    session.run("pre-commit", "install")
+
+
+@nox.session()
+def tests(session: nox.Session):
     """Run all tests for this repository.
 
     Assumes a test structure as follows:
@@ -121,3 +130,10 @@ def tests(session: nox.session):
     session.install("pytest")
 
     session.run("pytest", *session.posargs)
+
+
+@nox.session()
+def lint(session: nox.Session):
+    """Lint using pre-commit hooks."""
+    session.install("pre-commit")
+    session.run("pre-commit", "run", "--all-files")

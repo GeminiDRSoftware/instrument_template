@@ -6,6 +6,8 @@ import os
 from pathlib import Path
 import re
 
+import pytest
+
 LOGGER = logging.getLogger(__name__)
 
 
@@ -75,5 +77,32 @@ def test_default_template(cookies, monkeypatch):
                 if path.suffix in [".yml", ".yaml"] and "github" in str(path):
                     continue
 
-                assert r"{{" not in line, errstr
-                assert r"}}" not in line, errstr
+                assert "{{" not in line, errstr
+                assert "}}" not in line, errstr
+
+
+@pytest.mark.parametrize(
+    "extra_context",
+    [{}, {"instrument_name": "OTHERNAME"}, {"instrument_name": "othername"}],
+)
+def test_lowercase_package_names(extra_context, cookies, monkeypatch):
+    """Test that certain dirs follow PEP8 package name guidelines.
+
+    See: https://peps.python.org/pep-0008/#package-and-module-names
+    """
+    result = cookies.bake(extra_context=extra_context)
+
+    monkeypatch.chdir(result.project_path)
+
+    instrument_name = result.context["instrument_name"]
+
+    expected_lowercase_paths = [
+        f"{instrument_name}dr/",
+        f"{instrument_name}_instruments/",
+    ]
+
+    expected_lowercase_paths = [Path(p.lower()) for p in expected_lowercase_paths]
+
+    for path in expected_lowercase_paths:
+        assert path.exists()
+        assert path.is_dir()

@@ -149,10 +149,4 @@ def test_lint_run_template(session: nox.Session):
         with session.chdir(new_package_path):
             session.run("git", "init", external=True)
             session.run("git", "add", ".", external=True)
-            session.run(
-                "pre-commit",
-                "run",
-                "-c",
-                "./.pre-commit-config.yaml",
-                "--all-files",
-            )
+            session.run("nox", "-s", "lint")

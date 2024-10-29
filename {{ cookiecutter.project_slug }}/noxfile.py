@@ -9,6 +9,8 @@ Please note that, to prevent undesirable execution, there are no default
 sessions, so running ``nox`` in isolation will do nothing.
 """
 
+from __future__ import annotations
+
 from pathlib import Path
 
 import nox

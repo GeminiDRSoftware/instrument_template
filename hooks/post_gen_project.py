@@ -6,18 +6,11 @@ import subprocess
 def git_init():
     """Initialize a git repository here, and make the initial commit to it."""
     init_command = ["git", "init"]
-    first_commit = [
-        "git",
-        "add",
-        ".",
-        "&&",
-        "git",
-        "commit",
-        "-m",
-        "Initial commit.",
-    ]
+    add_files = ["git", "add", "."]
+    first_commit = ["git", "commit", "-m", "Initial commit."]
 
     subprocess.run(init_command)
+    subprocess.run(add_files)
     subprocess.run(first_commit)
 
 

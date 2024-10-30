@@ -7,4 +7,4 @@ from .lookup import filter_wavelengths
 
 factory.addClass(AstroData{{ cookiecutter.instrument_name_title }})
 
-addInstrumentFilterWavelengths("fox", filter_wavelengths)
+addInstrumentFilterWavelengths("{{ cookiecutter.instrument_name }}", filter_wavelengths)

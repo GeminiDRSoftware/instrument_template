@@ -51,6 +51,10 @@ def test_default_template(cookies, monkeypatch):
     monkeypatch.chdir(str(result.project_path))
     for root, directories, files in os.walk(Path(".")):
         for path in (Path(root) / base for base in chain(directories, files)):
+            # Ignore all git repo files.
+            if ".git" in str(path):
+                continue
+
             assert "cookie" not in str(path).lower(), path
             assert not any(c in str(path) for c in R"{}"), path
 
@@ -106,3 +110,11 @@ def test_lowercase_package_names(extra_context, cookies, monkeypatch):
     for path in expected_lowercase_paths:
         assert path.exists()
         assert path.is_dir()
+
+
+def test_git_repo(cookies, monkeypatch):
+    result = cookies.bake()
+
+    monkeypatch.chdir(result.project_path)
+
+    assert Path(".git").exists(), "No git dir created"

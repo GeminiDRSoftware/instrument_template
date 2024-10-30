@@ -108,6 +108,50 @@ def devenv(session: nox.Session):
     session.notify("install_pre_commit_hooks")
 
 
+@nox.session(venv_backend=None)
+def devconda(session: nox.Session):
+    """Create a conda development environment."""
+    env_name = "{{ cookiecutter.instrument_name_lower }}_dev"
+    session.run(
+        "conda",
+        "create",
+        "--yes",
+        "--force",
+        "-n",
+        env_name,
+        "-c",
+        "conda-forge",
+        "python=3.12",
+        external=True,
+    )
+
+    result = session.run("conda", "info", "-e", silent=True, external=True)
+
+    env_path = None
+    for line in result.splitlines():
+        line = line.split("#")[0]
+
+        columns = line.split()
+
+        if len(columns) != 2:
+            continue
+
+        name, path = columns
+
+        if name == env_name:
+            env_path = Path(path)
+            break
+
+    assert env_path is not None, f"Could not find environment {env_name}"
+
+    env_python = env_path / "bin" / "python"
+
+    install_dragons(session, python=env_python)
+
+    session.log("Conda environemtn generated, to activate run:")
+    session.log(f"   conda activate {env_name}")
+
+
 @nox.session()
 def install_pre_commit_hooks(session: nox.Session):
     """Installs pre-commit hooks."""

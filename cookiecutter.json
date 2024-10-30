@@ -1,5 +1,6 @@
 {
   "instrument_name": "DEFAULT_INSTRUMENT_NAME",
+  "instrument_name_upper": "{{ cookiecutter.instrument_name.upper() }}",
   "instrument_name_lower": "{{ cookiecutter.instrument_name.lower() }}",
   "instrument_name_title": "{{ cookiecutter.instrument_name_lower.title() }}",
   "instrument_fits_name": "{{ cookiecutter.instrument_name.upper() }}",

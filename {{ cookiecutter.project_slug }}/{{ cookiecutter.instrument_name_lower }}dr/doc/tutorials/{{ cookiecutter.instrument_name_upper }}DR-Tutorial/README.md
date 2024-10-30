@@ -1,4 +1,4 @@
-# User Manual for GIRMOS data reduction
+# User Tutorial for {{ cookiecutter.instrument_name }} data reduction
 
 Location of the Sphinx documents.
 

@@ -42,6 +42,33 @@ def test_no_igrins_references(cookies):
                 ), f"IGRINS ref found ({path}::{i}):\n{line}"
 
 
+@pytest.mark.parametrize("instrument_name", ["IGRINS", "GIRMOS", "FOX"])
+def test_no_instrument_refs(instrument_name, cookies, monkeypatch):
+    """Tests for references to several different instrument names."""
+    result = cookies.bake()
+    monkeypatch.chdir(result.project_path)
+
+    comp_instrument_name = instrument_name.casefold()
+
+    for root, directories, files in os.walk("."):
+        assert comp_instrument_name not in root.casefold(), root
+
+        for path in (Path(root) / Path(p) for p in chain(directories, files)):
+            assert comp_instrument_name not in str(path).casefold(), path
+
+            if path.is_file():
+                try:
+                    file_lines = path.read_text().splitlines()
+
+                except UnicodeDecodeError:
+                    LOGGER.info(f"Skipping file: {path}")
+                    continue
+
+                for i, line in enumerate(file_lines):
+                    msg = f"{path}::{i} -> {line.strip()}"
+                    assert comp_instrument_name not in line.casefold(), msg
+
+
 def test_default_template(cookies, monkeypatch):
     """Test that the default template fills in correctly."""
     result = cookies.bake()
@@ -113,8 +140,13 @@ def test_lowercase_package_names(extra_context, cookies, monkeypatch):
 
 
 def test_git_repo(cookies, monkeypatch):
+    """Test that the git repo initializes properly."""
     result = cookies.bake()
 
     monkeypatch.chdir(result.project_path)
 
     assert Path(".git").exists(), "No git dir created"
+
+
+def test_conda_dev_environment(cookies, monkeypatch):
+    """Test conda development environemtn"""

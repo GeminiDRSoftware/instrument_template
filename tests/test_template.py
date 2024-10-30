@@ -3,6 +3,7 @@
 from itertools import chain
 import logging
 import os
+import subprocess
 from pathlib import Path
 import re
 
@@ -150,3 +151,37 @@ def test_git_repo(cookies, monkeypatch):
 
 def test_conda_dev_environment(cookies, monkeypatch):
     """Test conda development environemtn"""
+    instrument_name = "BLAH"
+    env_name = f"{instrument_name.lower()}_dev"
+    result = cookies.bake(extra_context={"instrument_name": instrument_name})
+    monkeypatch.chdir(result.project_path)
+
+    try:
+        subprocess.run(["nox", "-s", "devconda"])
+        result = subprocess.run(["conda", "info", "-e"], capture_output=True)
+
+        output = result.stdout.decode("utf-8")
+
+        entries = output.splitlines()
+
+        assert any(env_name in entry for entry in entries), f"Env {env_name} not found"
+
+        script = "\n".join(
+            [
+                "import astrodata",
+                "import gemini_instruments",
+                "import geminidr",
+                "import gempy",
+                "import gemini_obs_db",
+                "import gemini_calmgr",
+                f"import {instrument_name}_instruments",
+                f"import {instrument_name}_instruments.{instrument_name}",
+                f"from {instrument_name}_instruments.{instrument_name} import AstroData{instrument_name.title()}",
+                f"import {instrument_name}dr",
+            ]
+        )
+
+        subprocess.run(["conda", "run", "python", "-c", script])
+
+    finally:
+        subprocess.run(["conda", "remove", "-n", env_name, "--all", "-y"])

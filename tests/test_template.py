@@ -174,7 +174,7 @@ def test_download_correct_dragons_version(dragons_branch, cookies, monkeypatch):
     output = result.stdout.decode("utf-8")
 
     for line in output.splitlines():
-        if match := re.match(r"^\s+*\s+([A-Za-z0-9-/_]+)\s*$", line):
+        if match := re.match(r"^\s+\*\s+([A-Za-z0-9\-/_]+)\s*$", line):
             assert match.group(1) == dragons_branch
             break
 

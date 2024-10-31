@@ -149,6 +149,36 @@ def test_git_repo(cookies, monkeypatch):
     assert Path(".git").exists(), "No git dir created"
 
 
+@pytest.mark.parametrize("dragons_branch", ["release/3.2.x"])
+def test_download_correct_dragons_version(dragons_branch, cookies, monkeypatch):
+    """Test that proper branches are downloaded when specified by a user."""
+    instrument_name = "BLAH"
+    result = cookies.bake(extra_context={"instrument_name": instrument_name})
+    monkeypatch.chdir(result.project_path)
+
+    command_env = {
+        "DRAGONS_BRANCH": dragons_branch,
+    }
+
+    command_env |= os.environ
+
+    command = ["nox", "-s", "devenv"]
+
+    subprocess.run(command, env=command_env)
+
+    monkeypatch.chdir(result.project_path / "DRAGONS/")
+
+    branch_command = ["git", "branch"]
+    result = subprocess.run(branch_command, capture_output=True)
+
+    output = result.stdout.decode("utf-8")
+
+    for line in output.splitlines():
+        if match := re.match(r"^\s+*\s+([A-Za-z0-9-/_]+)\s*$", line):
+            assert match.group(1) == dragons_branch
+            break
+
+
 def test_conda_dev_environment(cookies, monkeypatch):
     """Test conda development environemtn"""
     instrument_name = "BLAH"

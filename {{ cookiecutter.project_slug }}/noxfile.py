@@ -12,6 +12,7 @@ sessions, so running ``nox`` in isolation will do nothing.
 from __future__ import annotations
 
 from pathlib import Path
+import re
 
 import nox
 
@@ -22,6 +23,44 @@ DRAGONS_URL = R"https://github.com/GeminiDRSoftware/DRAGONS"
 CALMGR_URL = R"https://github.com/GeminiDRSoftware/GeminiCalMgr.git@release/1.1.x"
 OBSDB_URL = R"https://github.com/GeminiDRSoftware/GeminiObsDB.git@release/1.0.x"
 
+DRAGONS_BRANCH = "master"
+DRAGONS_LOCATION = "DRAGONS/"
+
+
+def check_dragons_version(session: nox.Session):
+    """Check if dragons is the expected version."""
+    with session.chdir(DRAGONS_LOCATION):
+        result = session.run("git", "branch", silent=True, external=True)
+
+        match = re.match(r"^.*\s+(\w+)\s*.*$", result)
+
+        if not match:
+            raise ValueError("No DRAGONS branch found.")
+
+        branch_name = match.group(1)
+
+        if branch_name != DRAGONS_BRANCH:
+            session.warn(f"Unexpected git branch: {branch_name} (not {DRAGONS_BRANCH})")
+
+        else:
+            session.log(f"Found correct branch: {branch_name}")
+
+        result = session.run("git", "fetch", "--dry-run", silent=True, external=True)
+
+        if result:
+            session.warn(
+                f"Your DRAGONS version is not up-to-date.\n"
+                f"Please check the latest version at:\n"
+                f"    {DRAGONS_URL}\n"
+                f"And, if you would like to update, run:\n\n"
+                f"    git fetch && git pull\n\n"
+                f" We strongly encourage you do this regularly in case of "
+                f" important updates."
+            )
+
+        else:
+            session.log("DRAGONS is up to date!")
+
 
 def install_dragons(session: nox.Session, python: Path | None = None):
     """Install dragons into the given session.
@@ -29,13 +68,30 @@ def install_dragons(session: nox.Session, python: Path | None = None):
     If python is not None, it assumes it is a path to the
     correct python binary to use.
     """
+    dragons_path = Path(DRAGONS_LOCATION)
+
+    if not dragons_path.exists():
+        # Clone dragons locally
+        session.run(
+            "git",
+            "clone",
+            "-b",
+            DRAGONS_BRANCH,
+            DRAGONS_URL,
+            str(dragons_path),
+            external=True,
+        )
+
+    check_dragons_version(session)
+
     if python:
         session.run(
             str(python),
             "-m",
             "pip",
             "install",
-            f"git+{DRAGONS_URL}",
+            "-e",
+            str(dragons_path),
             external=True,
         )
 
@@ -51,7 +107,7 @@ def install_dragons(session: nox.Session, python: Path | None = None):
 
         return
 
-    session.install(f"git+{DRAGONS_URL}")
+    session.install("-e", str(dragons_path))
     session.install(f"git+{CALMGR_URL}", f"git+{OBSDB_URL}")
 
 
@@ -175,7 +231,7 @@ def tests(session: nox.Session):
     install_dragons(session)
     session.install("pytest")
 
-    session.run("pytest", *session.posargs)
+    session.run("pytest", "tests", *session.posargs)
 
 
 @nox.session()

@@ -69,6 +69,21 @@ source venv/bin/activate
 If you ever want to create a fresh environment, you can just run `nox -s devenv`
 again. It will create a new environment from scratch.
 
+### What if I want to use `conda`?
+
+You can create a conda development environment as well, by running:
+
+```bash
+nox -s devconda
+```
+
+This creates a conda environment with the name
+`{{ cookiecutter.instrument_name_lower }}_dev`, and can be activated using:
+
+```bash
+conda activate {{ cookiecutter.instrument_name_lower }}_dev
+```
+
 ### What if I need any extra dependencies?
 
 There's a `requirements.txt` file that can also be installed. _However_, we ask
@@ -94,9 +109,10 @@ You can lint your code manually using `nox` by running
 nox -s lint
 ```
 
-[pre-commit install]: https://pre-commit.com/
-
-This will run [`pre-commit`][pre-commit install] over your code. It is already installed in your development environment, and the development environment setup also installs `pre-commit` hooks that run automatically before you commit your changes.
+This will run [`pre-commit`][pre-commit install] over your code. It is already
+installed in your development environment, and the development environment setup
+also installs `pre-commit` hooks that run automatically before you commit your
+changes.
 
 ## Step 4: Explore DRAGONS developer documentation
 
@@ -123,5 +139,6 @@ Don't forget to write your own documentation!
 [dragons docs]: https://dragons.readthedocs.io/en/v3.2.0/
 [github_issues_page]: https://github.com/GeminiDRSoftware/instrument_template/issues
 [pipx_link]: https://pipx.pypa.io/stable/
+[pre-commit install]: https://pre-commit.com/
 [project_slug_link]: https://github.com/GeminiDRSoftware/instrument_template/tree/main/%7B%7B%20cookiecutter.project_slug%20%7D%7D
 [recipe dev docs]: https://dragons.readthedocs.io/projects/recipe-system-prog-manual/en/v3.2.0/

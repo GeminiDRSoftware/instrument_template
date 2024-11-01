@@ -23,8 +23,8 @@ DRAGONS_URL = R"https://github.com/GeminiDRSoftware/DRAGONS"
 CALMGR_URL = R"https://github.com/GeminiDRSoftware/GeminiCalMgr.git@release/1.1.x"
 OBSDB_URL = R"https://github.com/GeminiDRSoftware/GeminiObsDB.git@release/1.0.x"
 
-DRAGONS_BRANCH = "master"
-DRAGONS_LOCATION = "DRAGONS/"
+DRAGONS_BRANCH = "{{ cookiecutter.dragons_branch }}"
+DRAGONS_LOCATION = "{{ cookiecutter.dragons_location }}"
 
 
 def check_dragons_version(session: nox.Session):

@@ -6,5 +6,7 @@
   "instrument_fits_name": "{{ cookiecutter.instrument_name.upper() }}",
   "project_slug": "{{ cookiecutter.instrument_name_lower }}_dr_package",
   "primary_author": "DEFAULT_AUTHOR_NAME",
-  "primary_author_email": "DEFAULT_AUTHOR_EMAIL"
+  "primary_author_email": "DEFAULT_AUTHOR_EMAIL",
+  "dragons_branch": "master",
+  "dragons_location": "DRAGONS/"
 }

@@ -39,7 +39,7 @@ def initialize_commit_hooks(session: nox.Session):
 @nox.session(python=["3.10", "3.11", "3.12"])
 def test(session: nox.Session):
     """Test the cookiecutter template."""
-    session.install("pytest", "pytest-cookies", "nox")
+    session.install("pytest", "pytest-cookies", "pytest-xdist", "nox")
 
     session.run("pytest", "tests/", *session.posargs)
 
@@ -117,7 +117,7 @@ def test_filled_template(session: nox.Session):
         session.log(80 * "=")
 
         # Run the tests.
-        session.run("nox", "-s", "tests", "--verbose")
+        session.run("nox", "-s", "tests")
 
 
 @nox.session()

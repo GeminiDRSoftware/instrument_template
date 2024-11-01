@@ -47,6 +47,9 @@ def test_no_igrins_references(cookies):
 def test_no_instrument_refs(instrument_name, cookies, monkeypatch):
     """Tests for references to several different instrument names."""
     result = cookies.bake()
+
+    assert result.exit_code == 0
+
     monkeypatch.chdir(result.project_path)
 
     comp_instrument_name = instrument_name.casefold()
@@ -150,10 +153,15 @@ def test_git_repo(cookies, monkeypatch):
 
 
 @pytest.mark.parametrize("dragons_branch", ["release/3.2.x"])
-def test_download_correct_dragons_version(dragons_branch, cookies, monkeypatch):
+def test_download_correct_dragons_version_from_env(
+    dragons_branch, cookies, monkeypatch
+):
     """Test that proper branches are downloaded when specified by a user."""
     instrument_name = "BLAH"
     result = cookies.bake(extra_context={"instrument_name": instrument_name})
+
+    assert result.exit_code == 0
+
     monkeypatch.chdir(result.project_path)
 
     command_env = {
@@ -179,11 +187,72 @@ def test_download_correct_dragons_version(dragons_branch, cookies, monkeypatch):
             break
 
 
+@pytest.mark.parametrize("dragons_branch", ["release/3.2.x"])
+def test_download_correct_dragons_version_in_template(
+    dragons_branch, cookies, monkeypatch
+):
+    """Test specifying the dragons branch in the cookiecutter prompt."""
+    instrument_name = "BLAH"
+    extra_context = {
+        "dragons_branch": dragons_branch,
+        "instrument_name": instrument_name,
+    }
+
+    result = cookies.bake(extra_context=extra_context)
+
+    assert result.exit_code == 0
+
+    monkeypatch.chdir(result.project_path)
+
+    command = ["nox", "-s", "devenv"]
+
+    subprocess.run(command)
+
+    monkeypatch.chdir(result.project_path / "DRAGONS/")
+
+    branch_command = ["git", "branch"]
+    result = subprocess.run(branch_command, capture_output=True)
+
+    output = result.stdout.decode("utf-8")
+
+    for line in output.splitlines():
+        if match := re.match(r"^\s+\*\s+([A-Za-z0-9\-/_]+)\s*$", line):
+            assert match.group(1) == dragons_branch
+            break
+
+
+@pytest.mark.parametrize("dragons_location", ["bing/", "bong"])
+def test_download_dragons_to_location_template(dragons_location, cookies, monkeypatch):
+    """Test setting default dragons path in template."""
+    instrument_name = "BLAH"
+    extra_context = {
+        "instrument_name": instrument_name,
+        "dragons_location": dragons_location,
+    }
+
+    result = cookies.bake(extra_context=extra_context)
+
+    assert result.exit_code == 0
+
+    monkeypatch.chdir(result.project_path)
+
+    command = ["nox", "-s", "devenv"]
+
+    subprocess.run(command)
+
+    assert Path(dragons_location).exists()
+    assert Path(dragons_location).is_dir()
+    assert list(Path(dragons_location).iterdir())
+
+
 def test_conda_dev_environment(cookies, monkeypatch):
     """Test conda development environemtn"""
     instrument_name = "BLAH"
     env_name = f"{instrument_name.lower()}_dev"
     result = cookies.bake(extra_context={"instrument_name": instrument_name})
+
+    assert result.exit_code == 0
+
     monkeypatch.chdir(result.project_path)
 
     try:

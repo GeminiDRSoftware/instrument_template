@@ -1,0 +1,18 @@
+# This file manages our ruff settings for the *generated* repository.
+# Normally, this would be managed in a pyproject.toml, but since this is for a
+# package that will not be standalone, we just use the ruff.toml.
+#
+# If you decide to incorporate this into a standalone project, you can
+# translate this into a pyproject.toml following ruff's online guide.
+#    https://docs.astral.sh/ruff/configuration
+
+# [tool.ruff] in pyproject.toml
+line-length = 80
+
+# [tool.ruff.lint] in pyproject.toml
+[lint]
+select = ["E4", "E7", "E9", "F", "B"]
+
+ignore = [
+  "E501",  # Line length violations, covered by format
+]

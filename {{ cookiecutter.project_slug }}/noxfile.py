@@ -20,7 +20,9 @@ nox.options.sessions = []
 nox.options.error_on_external_run = True
 
 DRAGONS_URL = R"https://github.com/GeminiDRSoftware/DRAGONS"
-CALMGR_URL = R"https://github.com/GeminiDRSoftware/GeminiCalMgr.git@release/1.1.x"
+CALMGR_URL = (
+    R"https://github.com/GeminiDRSoftware/GeminiCalMgr.git@release/1.1.x"
+)
 OBSDB_URL = R"https://github.com/GeminiDRSoftware/GeminiObsDB.git@release/1.0.x"
 
 DRAGONS_BRANCH = "{{ cookiecutter.dragons_branch }}"
@@ -29,10 +31,14 @@ DRAGONS_LOCATION = "{{ cookiecutter.dragons_location }}"
 
 def check_dragons_version(session: nox.Session):
     """Check if dragons is the expected version."""
-    with session.chdir(DRAGONS_LOCATION):
-        result = session.run("git", "branch", silent=True, external=True)
+    if not (dragons_path := Path(DRAGONS_LOCATION)).exists():
+        dragons_path = dragons_path.absolute()
+        session.warn(f"DRAGONS not at expected location ({dragons_path})")
 
-        match = re.match(r"^.*\s+(\w+)\s*.*$", result)
+    with session.chdir(DRAGONS_LOCATION):
+        branch_result = session.run("git", "branch", silent=True, external=True)
+
+        match = re.match(r"^.*\s+(\w+)\s*.*$", branch_result)
 
         if not match:
             raise ValueError("No DRAGONS branch found.")
@@ -40,22 +46,32 @@ def check_dragons_version(session: nox.Session):
         branch_name = match.group(1)
 
         if branch_name != DRAGONS_BRANCH:
-            session.warn(f"Unexpected git branch: {branch_name} (not {DRAGONS_BRANCH})")
+            session.warn(
+                f"Unexpected git branch: {branch_name} (not {DRAGONS_BRANCH})"
+            )
 
         else:
             session.log(f"Found correct branch: {branch_name}")
 
-        result = session.run("git", "fetch", "--dry-run", silent=True, external=True)
+        fetch_result = session.run("git", "fetch", silent=True, external=True)
 
-        if result:
+        diff_result = session.run(
+            "git",
+            "diff",
+            f"HEAD..origin/{DRAGONS_BRANCH}",
+            silent=True,
+            external=True,
+        )
+
+        if fetch_result or diff_result:
             session.warn(
-                f"Your DRAGONS version is not up-to-date.\n"
+                f"DRAGONS out of date.\n"
                 f"Please check the latest version at:\n"
                 f"    {DRAGONS_URL}\n"
                 f"And, if you would like to update, run:\n\n"
                 f"    git fetch && git pull\n\n"
                 f" We strongly encourage you do this regularly in case of "
-                f" important updates."
+                f" important/breaking updates."
             )
 
         else:
@@ -239,3 +255,9 @@ def lint(session: nox.Session):
     """Lint using pre-commit hooks."""
     session.install("pre-commit")
     session.run("pre-commit", "run", "--all-files")
+
+
+@nox.session()
+def check(session: nox.Session):
+    """Perform checks for the repository."""
+    check_dragons_version(session)

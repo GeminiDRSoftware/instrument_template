@@ -10,6 +10,9 @@ python = "^3.11"
 nox = "^2024.4.15"
 pre-commit = "^3.8.0"
 
+[tool.ruff]
+line-length=80
+
 
 [build-system]
 requires = ["poetry-core"]

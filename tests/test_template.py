@@ -284,3 +284,43 @@ def test_conda_dev_environment(cookies, monkeypatch):
 
     finally:
         subprocess.run(["conda", "remove", "-n", env_name, "--all", "-y"])
+
+
+def test_out_of_sync_dragons(cookies, monkeypatch):
+    """Test that nox -s check warns when dragons out of date."""
+    cookiecutter_result = cookies.bake()
+
+    assert cookiecutter_result.exit_code == 0
+
+    monkeypatch.chdir(cookiecutter_result.project_path)
+
+    dev_env_command = ["nox", "-s", "devenv"]
+
+    result = subprocess.run(dev_env_command, capture_output=True)
+
+    assert result.returncode == 0
+
+    dragons_path = Path(cookiecutter_result.context["dragons_location"])
+
+    assert dragons_path.exists()
+    assert list(dragons_path.iterdir())
+
+    monkeypatch.chdir(dragons_path)
+
+    assert "astrodata" in [str(p).rstrip("/") for p in Path().iterdir()]
+
+    checkout_previous_commit_command = ["git", "reset", "--hard", "HEAD~5"]
+
+    checkout_result = subprocess.run(checkout_previous_commit_command)
+
+    assert checkout_result.returncode == 0
+
+    monkeypatch.chdir(cookiecutter_result.project_path)
+
+    check_dragons = ["nox", "-s", "check"]
+
+    post_checkout_result = subprocess.run(check_dragons, capture_output=True)
+
+    assert post_checkout_result.returncode == 0
+
+    assert "DRAGONS out of date" in post_checkout_result.stderr.decode("utf-8")
